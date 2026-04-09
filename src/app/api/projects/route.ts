@@ -14,3 +14,14 @@ export async function GET(request: NextRequest) {
   });
   return NextResponse.json(projects);
 }
+
+export async function POST(request: NextRequest) {
+  const body = await request.json();
+
+  const project = await prisma.project.create({
+    data: { name: body.name, clientId: body.clientId },
+    include: { client: true },
+  });
+
+  return NextResponse.json(project, { status: 201 });
+}
