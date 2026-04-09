@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/layout/Sidebar";
+import { TimerProvider } from "@/components/timer/TimerContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,8 +30,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-gray-50">
-        <Sidebar />
-        <main className="md:ml-64 p-6 pt-16 md:pt-6">{children}</main>
+        <TimerProvider>
+          <Sidebar />
+          <main className="md:ml-64 p-6 pt-16 md:pt-6">{children}</main>
+        </TimerProvider>
       </body>
     </html>
   );
