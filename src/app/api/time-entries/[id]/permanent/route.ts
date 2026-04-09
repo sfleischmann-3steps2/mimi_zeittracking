@@ -5,8 +5,12 @@ export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
-
-  await prisma.timeEntry.delete({ where: { id } });
-  return NextResponse.json({ success: true });
+  try {
+    const { id } = await params;
+    await prisma.timeEntry.delete({ where: { id } });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("DELETE /api/time-entries/[id]/permanent error:", error);
+    return NextResponse.json({ error: "Fehler beim Löschen" }, { status: 500 });
+  }
 }

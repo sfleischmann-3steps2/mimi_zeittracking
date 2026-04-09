@@ -27,11 +27,13 @@ export default function Timer({ onStop }: { onStop?: () => void }) {
 
   useEffect(() => {
     fetch("/api/clients")
-      .then((r) => r.json())
-      .then(setClients);
+      .then((r) => r.ok ? r.json() : [])
+      .then(setClients)
+      .catch(() => {});
     fetch("/api/task-areas")
-      .then((r) => r.json())
-      .then(setTaskAreas);
+      .then((r) => r.ok ? r.json() : [])
+      .then(setTaskAreas)
+      .catch(() => {});
   }, []);
 
   // Auto-select first client

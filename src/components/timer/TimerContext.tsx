@@ -141,7 +141,7 @@ export function TimerProvider({ children }: { children: React.ReactNode }) {
     const endDate = new Date(now);
     const duration = Math.round((now - state.startTime - totalPaused) / 1000);
 
-    await fetch("/api/time-entries", {
+    const res = await fetch("/api/time-entries", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -154,6 +154,11 @@ export function TimerProvider({ children }: { children: React.ReactNode }) {
         taskAreaId: state.taskAreaId,
       }),
     });
+
+    if (!res.ok) {
+      alert("Fehler beim Speichern des Zeiteintrags! Der Timer bleibt aktiv, bitte nochmal versuchen.");
+      return;
+    }
 
     setState(defaultState);
     localStorage.removeItem(STORAGE_KEY);

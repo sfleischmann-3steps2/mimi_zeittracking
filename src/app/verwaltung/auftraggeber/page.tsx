@@ -18,8 +18,12 @@ export default function AuftraggeberVerwaltung() {
 
   const load = () =>
     fetch("/api/clients")
-      .then((r) => r.json())
-      .then(setClients);
+      .then((r) => {
+        if (!r.ok) throw new Error("Laden fehlgeschlagen");
+        return r.json();
+      })
+      .then(setClients)
+      .catch((e) => setError(e.message));
 
   useEffect(() => { load(); }, []);
 

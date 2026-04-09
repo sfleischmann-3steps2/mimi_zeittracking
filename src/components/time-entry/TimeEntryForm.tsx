@@ -31,14 +31,16 @@ export default function TimeEntryForm({ onSaved }: { onSaved?: () => void }) {
 
   useEffect(() => {
     fetch("/api/clients")
-      .then((r) => r.json())
+      .then((r) => r.ok ? r.json() : [])
       .then((data) => {
         setClients(data);
         if (data.length > 0) setClientId(data[0].id);
-      });
+      })
+      .catch(() => {});
     fetch("/api/task-areas")
-      .then((r) => r.json())
-      .then(setTaskAreas);
+      .then((r) => r.ok ? r.json() : [])
+      .then(setTaskAreas)
+      .catch(() => {});
   }, []);
 
   const selectedClient = clients.find((c) => c.id === clientId);

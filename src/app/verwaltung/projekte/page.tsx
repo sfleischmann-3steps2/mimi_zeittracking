@@ -25,14 +25,22 @@ export default function ProjekteVerwaltung() {
 
   const load = () => {
     fetch("/api/projects")
-      .then((r) => r.json())
-      .then(setProjects);
+      .then((r) => {
+        if (!r.ok) throw new Error("Laden fehlgeschlagen");
+        return r.json();
+      })
+      .then(setProjects)
+      .catch((e) => setError(e.message));
     fetch("/api/clients")
-      .then((r) => r.json())
+      .then((r) => {
+        if (!r.ok) throw new Error("Laden fehlgeschlagen");
+        return r.json();
+      })
       .then((data) => {
         setClients(data);
         if (data.length > 0 && !newClientId) setNewClientId(data[0].id);
-      });
+      })
+      .catch((e) => setError(e.message));
   };
 
   useEffect(() => { load(); }, []);

@@ -15,12 +15,25 @@ interface DashboardData {
 
 export default function Dashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetch("/api/dashboard")
-      .then((r) => r.json())
-      .then(setData);
+      .then((r) => {
+        if (!r.ok) throw new Error("Laden fehlgeschlagen");
+        return r.json();
+      })
+      .then(setData)
+      .catch((e) => setError(e.message));
   }, []);
+
+  if (error) {
+    return (
+      <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg">
+        Fehler beim Laden des Dashboards: {error}. Bitte Seite neu laden.
+      </div>
+    );
+  }
 
   if (!data) {
     return (
