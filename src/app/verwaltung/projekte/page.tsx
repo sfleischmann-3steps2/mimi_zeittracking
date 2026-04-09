@@ -21,6 +21,7 @@ export default function ProjekteVerwaltung() {
   const [newClientId, setNewClientId] = useState("");
   const [editId, setEditId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
+  const [editClientId, setEditClientId] = useState("");
   const [error, setError] = useState("");
 
   const load = () => {
@@ -63,11 +64,11 @@ export default function ProjekteVerwaltung() {
   };
 
   const handleUpdate = async (id: string) => {
-    if (!editName.trim()) return;
+    if (!editName.trim() || !editClientId) return;
     await fetch(`/api/projects/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: editName.trim() }),
+      body: JSON.stringify({ name: editName.trim(), clientId: editClientId }),
     });
     setEditId(null);
     load();
@@ -156,7 +157,21 @@ export default function ProjekteVerwaltung() {
                       <span className="font-medium">{project.name}</span>
                     )}
                   </td>
-                  <td className="px-4 py-3 text-gray-500">{project.client.name}</td>
+                  <td className="px-4 py-3">
+                    {editId === project.id ? (
+                      <select
+                        value={editClientId}
+                        onChange={(e) => setEditClientId(e.target.value)}
+                        className="rounded border border-gray-300 px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        {clients.map((c) => (
+                          <option key={c.id} value={c.id}>{c.name}</option>
+                        ))}
+                      </select>
+                    ) : (
+                      <span className="text-gray-500">{project.client.name}</span>
+                    )}
+                  </td>
                   <td className="px-4 py-3 text-right">
                     <div className="flex justify-end gap-1">
                       {editId === project.id ? (
@@ -166,7 +181,7 @@ export default function ProjekteVerwaltung() {
                         </>
                       ) : (
                         <>
-                          <button onClick={() => { setEditId(project.id); setEditName(project.name); }} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Pencil size={16} /></button>
+                          <button onClick={() => { setEditId(project.id); setEditName(project.name); setEditClientId(project.client.id); }} className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg"><Pencil size={16} /></button>
                           <button onClick={() => handleDelete(project.id)} className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"><Trash2 size={16} /></button>
                         </>
                       )}
