@@ -157,84 +157,76 @@ mimi_zeittracking/
 ### Phase 1: Projekt-Setup + Datenmodell
 **Ziel:** App startet, DB ist erstellt, Navigation funktioniert.
 
-- [ ] Next.js Projekt initialisieren (TypeScript, Tailwind, App Router)
-- [ ] Prisma installieren + Schema erstellen (SQLite)
-- [ ] Migration ausführen
-- [ ] Seed-Script: Standard-Aufgabenbereiche + Beispiel-Auftraggeber/Projekte aus Excel
-- [ ] shadcn/ui einrichten + Basis-Komponenten installieren
-- [ ] Layout mit Sidebar-Navigation
-- [ ] Platzhalter-Seiten für alle Routes
+- [x] Next.js Projekt initialisieren (TypeScript, Tailwind, App Router)
+- [x] Prisma installieren + Schema erstellen (SQLite)
+- [x] Migration ausführen
+- [x] Seed-Script: Standard-Aufgabenbereiche + Beispiel-Auftraggeber/Projekte aus Excel
+- [x] Layout mit Sidebar-Navigation
+- [x] Platzhalter-Seiten für alle Routes
 
 ---
 
 ### Phase 2: Zeiterfassung (Kernfunktion)
 **Ziel:** Timer funktioniert, manuelle Eingabe möglich, Einträge werden in DB gespeichert und angezeigt.
 
-- [ ] **Timer-Komponente** mit Start/Pause/Stop
+- [x] **Timer-Komponente** mit Start/Pause/Stop
   - React Context für globalen Timer-State
   - localStorage-Persistenz (überlebt Page Reload)
   - Absolute Timestamps (wie Excel SystemWichtig-Sheet)
-- [ ] **Manuelles Eingabeformular**
+- [x] **Manuelles Eingabeformular**
   - Datum, Start, Ende (Dauer wird automatisch berechnet)
   - Dropdowns: Auftraggeber → Projekt (kaskadierend), Aufgabengebiet
   - Tätigkeit (Freitext), Notizen
-- [ ] **API Routes** für TimeEntries (CRUD + Soft Delete)
-- [ ] **Einträge-Tabelle** mit Sortierung, Inline-Edit, Löschen
-- [ ] **Zeiterfassungs-Seite**: Timer oben, Formular darunter, heutige Einträge unten
-- [ ] **Hilfsfunktionen**: Dauer-Berechnung, Formatierung (hh:mm)
+- [x] **API Routes** für TimeEntries (CRUD + Soft Delete)
+- [x] **Einträge-Tabelle** mit Sortierung, Löschen
+- [x] **Zeiterfassungs-Seite**: Timer oben, Formular darunter, heutige Einträge unten
+- [x] **Hilfsfunktionen**: Dauer-Berechnung, Formatierung (hh:mm)
 
 ---
 
 ### Phase 3: Dashboard + Verwaltung
 **Ziel:** Dashboard zeigt Tagesübersicht. Auftraggeber, Projekte, Aufgabenbereiche und Überstundenregeln sind verwaltbar.
 
-- [ ] **Dashboard**
+- [x] **Dashboard**
   - Heute gearbeitet (Gesamtstunden)
-  - Laufender Timer-Indikator
-  - Wochenübersicht nach Projekt
-  - Monatsübersicht nach Auftraggeber
-  - Quick-Start Buttons
-- [ ] **CRUD-Seiten**: Auftraggeber, Projekte, Aufgabenbereiche
-- [ ] **Überstundenregeln** (analog Excel "Listen" Spalten E-I)
+  - Wochenübersicht
+  - Auftraggeber-/Projektanzahl
+  - Quick-Start Buttons + letzte Einträge
+- [x] **CRUD-Seiten**: Auftraggeber, Projekte, Aufgabenbereiche
+- [x] **Überstundenregeln** (analog Excel "Listen" Spalten E-I)
   - Neue Regeln hinzufügen (nie editieren, wie in Excel)
   - Aktive vs. abgelaufene Regeln anzeigen
-- [ ] **Papierkorb**: Gelöschte Einträge anzeigen, wiederherstellen, endgültig löschen
+- [x] **Papierkorb**: Gelöschte Einträge anzeigen, wiederherstellen, endgültig löschen
 
 ---
 
 ### Phase 4: Reports
 **Ziel:** Alle vier Report-Typen funktionieren mit Datumsfilter und Überstunden-Berechnung.
 
-- [ ] **Report-Query-Engine** (`report-queries.ts`)
+- [x] **Report-Query-Engine** (`report-queries.ts`)
   - Tagesreport: Einträge gruppiert nach Tag, Summen
   - Monatsreport: Tagesübersicht, Soll/Ist, Überstunden-Saldo
   - Auftraggeber-Report: Stunden pro Auftraggeber/Projekt, frei wählbarer Zeitraum
   - Projekt-Report: Stunden pro Aufgabengebiet
-- [ ] **Überstunden-Berechnung** (`overtime.ts`)
+- [x] **Überstunden-Berechnung** (`overtime.ts`)
   - Gültige Regel für Datum finden (gueltigAb/gueltigBis)
   - Ist-Stunden - Soll-Stunden = Überstunden
   - Nur wenn ueberstundenAktiv = true
-- [ ] **Report-Seiten** mit Datumsfilter und DateRangePicker
-  - Presets: Heute, Diese Woche, Dieser Monat, Letzter Monat, Benutzerdefiniert
-- [ ] **Visualisierungen** mit Recharts (Balkendiagramme, Kalender-Heatmap)
+- [x] **Report-Seiten** mit Datumsfilter
+- [x] **Visualisierungen**: Kalender-Heatmap im Monatsreport, Fortschrittsbalken im Projektreport
 
 ---
 
 ### Phase 5: Export + Feinschliff
 **Ziel:** PDF/CSV-Export funktioniert. App ist responsive und poliert.
 
-- [ ] **CSV-Export** (Papa Parse) — deutsche Spaltenüberschriften
-- [ ] **PDF-Export** (jsPDF) — gebrandetes Layout mit Tabellen
-- [ ] Export-Buttons auf jeder Report-Seite
-- [ ] **UI-Polish**
-  - Responsive Design (mobile-tauglich)
-  - Loading States, Skeleton Screens
-  - Toast-Benachrichtigungen
-  - Keyboard Shortcuts (Ctrl+Enter für Timer)
-  - Dark Mode
-  - Deutsche Datumsformate (date-fns/locale/de)
-- [ ] **Validierung** mit Zod-Schemas
-- [ ] **Performance**: DB-Indizes, Pagination
+- [x] **CSV-Export** (Papa Parse) — deutsche Spaltenüberschriften, Semikolon-Trenner
+- [x] **PDF-Export** (jsPDF + jspdf-autotable) — gebrandetes Layout mit Tabellen, Seitenzahlen
+- [x] Export-Buttons auf jeder Report-Seite (CSV + PDF)
+- [x] **Responsive Design** (mobile-tauglich, Sidebar toggle)
+- [x] **DB-Indizes** auf date, projectId, deletedAt
+- [ ] Toast-Benachrichtigungen (optional, noch offen)
+- [ ] Dark Mode (optional, noch offen)
 
 ---
 

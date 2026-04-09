@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Calendar } from "lucide-react";
 import { toDateString, formatDuration, formatTime } from "@/lib/time-utils";
+import ExportButtons from "@/components/reports/ExportButtons";
 
 export default function Tagesreport() {
   const [date, setDate] = useState(toDateString(new Date()));
@@ -23,12 +24,15 @@ export default function Tagesreport() {
         <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
           <Calendar size={28} /> Tagesreport
         </h1>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <div className="flex items-center gap-3">
+          <ExportButtons params={{ type: "daily", date }} />
+          <input
+            type="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
       </div>
 
       {loading ? (

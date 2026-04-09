@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { FolderOpen } from "lucide-react";
 import { formatDuration, formatTime, formatDate, toDateString } from "@/lib/time-utils";
+import ExportButtons from "@/components/reports/ExportButtons";
 
 interface Project {
   id: string;
@@ -41,9 +42,19 @@ export default function ProjektReport() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-        <FolderOpen size={28} /> Projekt-Report
-      </h1>
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <FolderOpen size={28} /> Projekt-Report
+        </h1>
+        {projectId && (
+          <ExportButtons params={{
+            type: "project",
+            projectId,
+            from,
+            to: new Date(new Date(to).getTime() + 86400000).toISOString(),
+          }} />
+        )}
+      </div>
 
       {/* Filters */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">

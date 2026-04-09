@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { CalendarDays } from "lucide-react";
 import { formatDuration } from "@/lib/time-utils";
+import ExportButtons from "@/components/reports/ExportButtons";
 
 const MONTH_NAMES = [
   "Januar", "Februar", "März", "April", "Mai", "Juni",
@@ -39,12 +40,15 @@ export default function Monatsreport() {
         <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
           <CalendarDays size={28} /> Monatsreport
         </h1>
-        <div className="flex items-center gap-2">
-          <button onClick={prevMonth} className="px-3 py-2 bg-gray-100 rounded-lg text-sm hover:bg-gray-200 transition-colors">&larr;</button>
-          <span className="font-medium text-gray-900 min-w-[140px] text-center">
-            {MONTH_NAMES[month - 1]} {year}
-          </span>
-          <button onClick={nextMonth} className="px-3 py-2 bg-gray-100 rounded-lg text-sm hover:bg-gray-200 transition-colors">&rarr;</button>
+        <div className="flex items-center gap-4">
+          <ExportButtons params={{ type: "monthly", year: String(year), month: String(month) }} />
+          <div className="flex items-center gap-2">
+            <button onClick={prevMonth} className="px-3 py-2 bg-gray-100 rounded-lg text-sm hover:bg-gray-200 transition-colors">&larr;</button>
+            <span className="font-medium text-gray-900 min-w-[140px] text-center">
+              {MONTH_NAMES[month - 1]} {year}
+            </span>
+            <button onClick={nextMonth} className="px-3 py-2 bg-gray-100 rounded-lg text-sm hover:bg-gray-200 transition-colors">&rarr;</button>
+          </div>
         </div>
       </div>
 

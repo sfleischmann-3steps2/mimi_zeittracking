@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Users } from "lucide-react";
 import { formatDuration, formatTime, formatDate, toDateString } from "@/lib/time-utils";
+import ExportButtons from "@/components/reports/ExportButtons";
 
 interface Client {
   id: string;
@@ -40,9 +41,19 @@ export default function AuftraggeberReport() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-        <Users size={28} /> Auftraggeber-Report
-      </h1>
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <Users size={28} /> Auftraggeber-Report
+        </h1>
+        {clientId && (
+          <ExportButtons params={{
+            type: "client",
+            clientId,
+            from,
+            to: new Date(new Date(to).getTime() + 86400000).toISOString(),
+          }} />
+        )}
+      </div>
 
       {/* Filters */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
