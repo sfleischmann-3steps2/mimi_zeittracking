@@ -51,7 +51,7 @@ export default function Eintraege() {
           <p className="text-gray-500 text-sm text-center">Laden...</p>
         </div>
       ) : (
-        <TimeEntryTable entries={entries} onDelete={handleDelete} />
+        <TimeEntryTable entries={entries} onDelete={handleDelete} onUpdate={loadEntries} />
       )}
     </div>
   );

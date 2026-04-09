@@ -55,7 +55,7 @@ export default function Zeiterfassung() {
         <h2 className="text-lg font-semibold text-gray-800 mb-3">
           Heutige Einträge
         </h2>
-        <TimeEntryTable entries={entries} onDelete={handleDelete} />
+        <TimeEntryTable entries={entries} onDelete={handleDelete} onUpdate={loadEntries} />
       </div>
     </div>
   );
