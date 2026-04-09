@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id        String    @id @default(cuid())
+  name      String    @unique
+  projects  Project[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Project {
+  id            String         @id @default(cuid())
+  name          String
+  client        Client         @relation(fields: [clientId], references: [id])
+  clientId      String
+  timeEntries   TimeEntry[]
+  overtimeRules OvertimeRule[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@unique([name, clientId])
+}
+
+model TaskArea {
+  id          String      @id @default(cuid())
+  name        String      @unique
+  timeEntries TimeEntry[]
+}
+
+model TimeEntry {
+  id         String    @id @default(cuid())
+  date       DateTime
+  startTime  DateTime
+  endTime    DateTime?
+  duration   Int?
+  taetigkeit String
+  project    Project   @relation(fields: [projectId], references: [id])
+  projectId  String
+  taskArea   TaskArea? @relation(fields: [taskAreaId], references: [id])
+  taskAreaId String?
+  notes      String?
+  deletedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@index([date])
+  @@index([projectId])
+  @@index([deletedAt])
+}
+
+model OvertimeRule {
+  id                String    @id @default(cuid())
+  project           Project   @relation(fields: [projectId], references: [id])
+  projectId         String
+  sollZeit          Float
+  ueberstundenAktiv Boolean   @default(false)
+  gueltigAb         DateTime
+  gueltigBis        DateTime?
+}
